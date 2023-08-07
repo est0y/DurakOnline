@@ -10,10 +10,10 @@ import java.util.*;
 
 @Entity
 @Table(name = "games")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class Game {
     @Id
     @Column(name = "id")

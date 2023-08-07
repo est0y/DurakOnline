@@ -14,7 +14,6 @@ import java.util.Objects;
 @Table(name = "seats")
 @AllArgsConstructor
 @NoArgsConstructor
-//@Data
 @Setter
 public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

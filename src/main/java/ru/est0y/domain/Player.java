@@ -8,7 +8,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "players")
 @AllArgsConstructor
-//@Data
 @NoArgsConstructor
 @Getter
 public class Player {
@@ -28,7 +27,4 @@ public class Player {
     public int hashCode() {
         return Objects.hash(id);
     }
-   /*   @ManyToOne
-    @JoinColumn(name = "game_id")
-    private Game game;*/
 }

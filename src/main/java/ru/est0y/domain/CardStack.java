@@ -1,22 +1,16 @@
 package ru.est0y.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 import java.util.List;
 
-/*@Entity
-@Table(name = "card_stacks")*/
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class CardStack {
 
- /*   @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    private Integer id;*/
     private int number;
     private List<Integer> cardsId;
 }
