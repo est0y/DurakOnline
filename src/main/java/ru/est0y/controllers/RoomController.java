@@ -33,8 +33,9 @@ public class RoomController {
     @MessageMapping("/game/id.{gameId}/sit")
     public void sit(Principal principal, @DestinationVariable String gameId, SitAction sitAction) {
         var roomRoles = sitService.takeSeatIfFree(gameId, principal.getName(), sitAction);
-        roomRoles.keySet().forEach(r -> {
-            simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/role/" + r, roomRoles.get(r));
+        roomRoles.keySet().forEach(roomId -> {
+            simpMessagingTemplate.convertAndSendToUser(principal.getName(),
+                    "/queue/role/" + roomId, roomRoles.get(roomId));
         });
     }
 
@@ -74,11 +75,4 @@ public class RoomController {
                 "/queue/role/" + roomId,
                 isPlayer ? RoomRole.PLAYER : RoomRole.SPECTATOR);
     }
-  /*  @EventListener
-    public void handleWebSocketDisconnect(SessionDisconnectEvent event) {
-        SimpMessageHeaderAccessor accessor = SimpMessageHeaderAccessor.wrap(event.getMessage());
-        String username = accessor.getUser().getName();
-        log.info("USER DISCONNECTED with id:"+username);
-    }*/
-
 }

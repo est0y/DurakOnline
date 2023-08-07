@@ -23,9 +23,6 @@ public class Seat {
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "player_id")
     private Player player;
-    //@JdbcTypeCode(SqlTypes.)
-    //@Enumerated(EnumType.STRING)
-   // private Role role;
     private List<Integer> cardsId;
     private boolean isFree;
 

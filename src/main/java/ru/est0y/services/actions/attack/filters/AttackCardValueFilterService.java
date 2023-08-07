@@ -19,9 +19,6 @@ public class AttackCardValueFilterService implements ActionFilterService<AttackA
 
     @Override
     public void doFilter(Seat seat, Game game, AttackAction action) {
-        //todo check role?
-        //todo проверить можно ли игроку еще подкидывать
-        //todo и после атаки заканчивать ход если статус игры DEFENDER_TAKES и больше нельзя подкидывать
         if (game.getPlayingTable().getCardStacks().size() == 0) {
             return;
         }

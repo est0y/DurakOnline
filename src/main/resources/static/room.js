@@ -17,17 +17,14 @@ let roomRole=null
         if(role=="SPECTATOR"){
            stompClient.unsubscribe('playerTopic');
            stompClient.subscribe('/gameState/spectator/'+roomId, (message) => setGameState(JSON.parse(message.body)),{ id: "spectatorTopic"});
-           //stompClient.send("/app/gameState/spectator/room."+roomId, {}, {});
            stompClient.send("/app/game/id."+roomId+"/gameState/spectator", {}, {});
         }else if(role=="PLAYER"){
            stompClient.unsubscribe('spectatorTopic');
            stompClient.subscribe('/user/queue/gameState/'+roomId, (message) => setGameState(JSON.parse(message.body)),{id: "playerTopic"});
-          // stompClient.send("/app/gameState/room."+roomId, {}, {});
           stompClient.send("/app/game/id."+roomId+"/gameState", {}, {});
         }
    });
         stompClient.send('/app/connect/'+roomId, {}, '');
-       // stompClient.send("/app/gameState/room."+roomId, {}, {});
 
     });
 
@@ -48,15 +45,12 @@ const takeSeat = (seatNumber) => {
 
 
 $("#seat1").on("click",  function () {
-//stompClient.subscribe('/user/queue/status', (message) => showMessage(JSON.parse(message.body).messageStr));
     stompClient.send("/app/game/id."+roomId+"/sit", {}, JSON.stringify({'name': 'name 1','seatNumber':1}))
  });
  $("#seat2").on("click",  function () {
- //stompClient.subscribe('/user/queue/status', (message) => showMessage(JSON.parse(message.body).messageStr));
      stompClient.send("/app/game/id."+roomId+"/sit", {}, JSON.stringify({'name': 'name 2','seatNumber':2}))
   });
 $("#seat3").on("click",  function () {
- //stompClient.subscribe('/user/queue/status', (message) => showMessage(JSON.parse(message.body).messageStr));
      stompClient.send("/app/game/id."+roomId+"/sit", {}, JSON.stringify({'name': 'name 3','seatNumber':3}))
   });
 
@@ -76,7 +70,6 @@ function setGameState(gameState){
             seatElement.append(getCards(seat.cardsId));
         }
         if(gameState.yourSeatNumber==seat.number){
-           // $("#seat"+seat.number).prop('disabled', true);
             PLAYER.role=seat.role
             if(seat.role=="DEFENCE"){
                 $("#take"+seat.number).show();
@@ -102,12 +95,9 @@ function setGameState(gameState){
         let stackElement=createNewStack($("#playingTable"));
         stackElement.append(getCards(stack.cardsId));
     });
-   /*  $(".hand").on("click", "img.card", function () {
-                cards.play($(this));
-           });*/
-           $(".stack").on("click", "img.card", function () {
-                          // stompClient.send("/app/defence/room."+roomId, {}, JSON.stringify({'defenceCardId': PLAYER.selectedCard,'stackNumber':$(this).parent().attr("number")}))
-                          stompClient.send("/app/game/id."+roomId+"/defence", {}, JSON.stringify({'defenceCardId': PLAYER.selectedCard,'stackNumber':$(this).parent().attr("number")}))
-                      });
+   $(".stack").on("click", "img.card", function () {
+        stompClient.send("/app/game/id."+roomId+"/defence", {},
+        JSON.stringify({'defenceCardId': PLAYER.selectedCard,'stackNumber':$(this).parent().attr("number")}))
+   });
 }
 

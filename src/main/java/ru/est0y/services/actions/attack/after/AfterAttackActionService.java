@@ -18,9 +18,6 @@ public class AfterAttackActionService implements AfterSimpleActionService<Attack
 
     @Override
     public void act(Game game) {
-        //  var openStackCount = game.getPlayingTable().getCardStacks().stream().filter(s -> s.getCardsId().size() == 1).count();
-        //var cardCountDefender = game.getDefenderSeat().getCardsId().size();
-        //  var countAttacksLeft = cardCountDefender - openStackCount;
         var countAttacksLeft = gameUtils.getAvailableAttacksCount(game);
         if (game.getGameStatus() == GameStatus.DEFENDER_TAKES && countAttacksLeft == 0) {
             turnManager.endTurn(game);

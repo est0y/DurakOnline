@@ -12,7 +12,9 @@ import java.util.UUID;
 @Service
 public class AnonCookieService {
     public boolean isExists(HttpServletRequest request) {
-        if (request.getCookies() == null) return false;
+        if (request.getCookies() == null) {
+            return false;
+        }
         return Arrays.stream(request.getCookies()).anyMatch(c -> c.getName().equals("anon_id"));
     }
 
