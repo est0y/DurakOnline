@@ -27,7 +27,7 @@ public class SitService {
     private final GameStateService gameStateService;
 
     @Transactional
-    public Map<String, RoomRole> takeSeatIfFree(String gameId, String playerId, SitAction sitAction) {
+    public Map<String, RoomRole> allocateSeatIfAvailable(String gameId, String playerId, SitAction sitAction) {
         Map<String, RoomRole> roomRoles = new HashMap<>();
         var player = playerRepository.findById(playerId).orElse(new Player(playerId, sitAction.name()));
         var seat = seatRepository.findByGameIdAndNumberAndFree(gameId, sitAction.seatNumber())

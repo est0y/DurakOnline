@@ -12,11 +12,12 @@ import ru.est0y.services.utils.stacks.CardStacksUtils;
 
 @AllArgsConstructor
 @Service
-public class TurnManagerImpl implements TurnManager{
+public class TurnManagerImpl implements TurnManager {
     private final CardDispenser cardDispenser;
     private final CardStacksUtils cardStacksUtils;
     private final SeatSequence seatSequence;
 
+    @Override
     public Seat nextAttacker(Game game) {
         var nextSeat = seatSequence.getNextSeat(game.getAttackerSeat(), game.getSeats());
         while (nextSeat.equals(game.getDefenderSeat())) {
@@ -26,6 +27,7 @@ public class TurnManagerImpl implements TurnManager{
 
     }
 
+    @Override
     public void endTurn(Game game) {
         game.setPassCount(0);
         if (game.getGameStatus() == GameStatus.DEFENDER_TAKES) {
@@ -38,6 +40,12 @@ public class TurnManagerImpl implements TurnManager{
         }
         game.getPlayingTable().getCardStacks().clear();
         dealCards(game);
+    }
+
+    @Override
+    public void checkWinConditional(Game game) {
+        var seatsHaveMoreOneCard = game.getSeats().stream().filter(seat -> seat.getCardsId().size() > 0).toList();
+        if (seatsHaveMoreOneCard.size() == 1) game.setGameStatus(GameStatus.GAME_OVER);
     }
 
     private void defenderTakes(Game game) {
@@ -53,12 +61,7 @@ public class TurnManagerImpl implements TurnManager{
         }
     }
 
-    public void checkWinConditional(Game game) {
-        var seatsHaveMoreOneCard = game.getSeats().stream().filter(seat -> seat.getCardsId().size() > 0).toList();
-        if (seatsHaveMoreOneCard.size() == 1) game.setGameStatus(GameStatus.GAME_OVER);
-    }
-
-    public void dealCards(Game game) {
+    private void dealCards(Game game) {
         cardDispenser.dealCardsIdForSeatsToLimit(game);
     }
 }

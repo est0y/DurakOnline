@@ -12,7 +12,7 @@ public class WebSocketDisconnectListener implements ApplicationListener<SessionD
 
     @Override
     public void onApplicationEvent(SessionDisconnectEvent event) {
-     log.info("user disconnect with session id:"+event.getSessionId());
+        log.info("user disconnect with session id:{}", event.getSessionId());
 
     }
 }

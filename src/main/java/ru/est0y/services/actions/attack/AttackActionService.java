@@ -21,6 +21,6 @@ public class AttackActionService implements ActionService<AttackAction> {
         var stacks = table.getCardStacks();
         stacks.add(new CardStack(stacks.size() + 1, List.of(action.attackCardId())));
         game.setPassCount(0);
-        log.info("seat "+seat.getNumber()+" attacks");
+        log.info("seat {} attacks",seat.getNumber());
     }
 }
